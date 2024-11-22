@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsões Energéticas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f7fb;
+            color: #333;
+        }
+        .container {
+            text-align: center;
+            padding: 2rem;
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+        }
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: #2575fc;
+        }
+        label {
+            font-size: 1rem;
+            margin: 0.5rem 0;
+            display: block;
+            text-align: left;
+        }
+        input {
+            padding: 0.8rem;
+            font-size: 1rem;
+            width: 100%;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 1rem;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #6a11cb;
+        }
+        .result {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: #e0f7fa;
+            border-radius: 5px;
+            color: #00796b;
+            display: none;
+        }
+
+        span {
+            color: #E3BD3C;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo ao <span>Lumière!</span> <br> Sistema de Previsões Energéticas</h1>
+        <!-- Formulário de inputs -->
+        <form id="inputForm">
+            <label for="Consumo_Anterior">Consumo no Mês Anterior (kWh):</label>
+            <input type="text" id="Consumo_Anterior" name="Consumo_Anterior" required>
+
+            <label for="Media_consumo">Média de Consumo Histórico (kWh):</label>
+            <input type="text" id="Media_consumo" name="Media_consumo" required>
+
+            <label for="Num_moradores">Número de Moradores:</label>
+            <input type="text" id="Num_moradores" name="Num_moradores" required>
+
+            <label for="Renda">Renda da Família (R$):</label>
+            <input type="text" id="Renda" name="Renda" required>
+        </form>
+
+        <button onclick="predict('classificacao')">Prever Classificação</button>
+        <button onclick="predict('regressao')">Prever Regressão</button>
+        
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        // Função para enviar dados via AJAX
+        function predict(modelType) {
+            // Pegando os dados do formulário
+            const consumoAnterior = document.getElementById('Consumo_Anterior').value;
+            const mediaConsumo = document.getElementById('Media_consumo').value;
+            const numMoradores = document.getElementById('Num_moradores').value;
+            const renda = document.getElementById('Renda').value;
+
+            // Criar o objeto com os dados
+            const data = {
+                Consumo_Anterior: consumoAnterior,
+                Media_consumo: mediaConsumo,
+                Num_moradores: numMoradores,
+                Renda: renda
+            };
+
+            // Enviar os dados para o servidor via fetch
+            fetch(`/predict/${modelType}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Exibir o resultado na página
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').innerText = `${data.prediction}`; 
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+            });
+        }
+    </script>
+</body>
+</html>
