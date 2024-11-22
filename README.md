@@ -47,7 +47,7 @@ O sistema consiste em um servidor Flask que oferece dois tipos de modelos predit
       ```bash
       source venv/bin/activate
       ```
-      
+
 3. **Instalando dependências**
    Você pode instalar as dependências necessárias usando o `pip`:
    ```bash
@@ -128,7 +128,6 @@ A página inicial (`index.html`) contém dois botões, cada um para enviar dados
 ## Autores
 
 - Vinicius Souza - [GitHub](https://github.com/ViniciuSaeSouza)
-- João Victor Michaeli - [GitHub](https://github.com/JoaoMichaeli)
 - Laura de Oliveira Cintra - [GitHub](https://github.com/Laura-Cintra)
 - Maria Eduarda Alves da Paixão - [GitHub](https://github.com/MariaEdPaixao)
 
